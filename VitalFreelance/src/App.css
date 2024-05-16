@@ -1,0 +1,78 @@
+.imagen{
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  z-index: -1;
+  right: 0;
+}
+
+
+.fondo{
+  background-color: transparent;
+  width: 100%;
+  z-index: 1;
+ 
+}
+.flex{
+  display: flex;
+
+}
+.logo{
+  height: 72px;
+}
+
+.logo_nombre{
+  height: 34px;
+}
+
+.centrar{
+  align-items: center;
+}
+.zona1{
+  flex: 1;
+}
+.zona2{
+  padding-right: 10px;
+  gap: 100px;
+}
+
+.logo_absoluto{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.contenedor_central{
+  width: 700px;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  justify-content: center;
+  z-index: 1;
+  
+}
+.contenedor_imagen{
+  position: relative;
+  
+}
+
+.gap{
+  justify-content: center;
+  display: flex;
+  gap: 35px;
+}
+h1{
+  color: white;
+  -webkit-text-stroke: 1px  #c5860c;
+}
+b{
+  color: #F7A80F;
+  -webkit-text-stroke: transparent;
+
+}
+button{
+  background-color: #F7A80F;
+  cursor: pointer;
+}

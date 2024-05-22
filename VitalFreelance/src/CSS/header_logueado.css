@@ -1,0 +1,14 @@
+.fondo{
+    background-color: black;
+}
+.avatar{
+    background-color: transparent;
+    border: 1px solid white;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}
+.avatar:hover{
+    cursor: pointer;
+    
+}

@@ -1,0 +1,110 @@
+.fondo_blanco{
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    top:0;
+    z-index: -1;
+    background-color: rgb(53, 53, 53);
+}
+
+.contenedor_lateral_cliente{
+    position: relative;
+    top: 5%;
+    left: 30%;
+    background-color: #F7A80F;
+    color: black;
+    width: 300px;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;justify-items: center;
+    border-radius: 16px;
+}
+
+.contendor_imagen{
+    display: flex;
+    border: 1px solid black;
+    height: 130px;
+    width: 130px;
+    border-radius: 50%;
+
+}
+.contenedor{
+    border-radius: 16px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.contenedor_central_cliente{
+    position: absolute;
+    width: 1200px;
+    height: auto;
+    background-color: white;
+    color: black;
+    top:13%;
+    right: 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 100px ;
+    border-radius: 8px;
+    max-height:450px;
+    overflow-y: scroll;
+    }
+.btn{
+ border:  0; 
+ background-color: transparent;
+ width: fit-content;
+ height: fit-content;
+}
+.tamano{
+    width: 900px;
+}
+table{
+    width: 100%;
+    height: 100%;
+    background-color: #f1bf59c7;
+    overflow-y: scroll;
+
+
+}
+thead{
+    height: 50px;
+    font-size: 16px;
+}
+th{
+   background-color: #F7A80F;
+
+    border-radius: 16px;
+
+}
+td{
+    border-bottom: 1px solid black;
+}
+
+.crear{
+    position: absolute;
+    width: 1200px;
+    height: auto;
+    color: black;
+    bottom: 12.5%;
+    right: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+}
+.anadir{
+    border-radius: 16px;
+    padding: 10px;
+    background-color: #F7A80F;
+}
+.button{
+    color: black;
+    background-color: #00f8ff ;
+}

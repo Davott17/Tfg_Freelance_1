@@ -11,6 +11,7 @@ import {
 import Registro from './widgets/registro'
 import Login from './widgets/login';
 import FRTD from './widgets/freelance_tienda_R';
+import AreaCliente from './paginas/areaCliente';
 
 function AppContent() {
 
@@ -21,6 +22,7 @@ function AppContent() {
         <Route path='/Registro' element={<Registro/>  }/>
         <Route path='/Login' element={<Login/>  }/>
         <Route path='/Registro/freelance' element={<FRTD/>  }/>
+        <Route path='/areaCliente' element={<AreaCliente/> } />
       </Routes>
     </>
   )

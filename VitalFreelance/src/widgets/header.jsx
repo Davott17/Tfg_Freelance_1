@@ -16,7 +16,7 @@ function Header() {
                         <a href="">Busqueda</a>
                         <a href="">Gimnasios</a>
                         <a href="">Tiendas</a>
-                    <Link to=""><button>Log in</button></Link>
+                    <Link to="/login"><button>Log in</button></Link>
                     <Link to="/Registro"><button>Registrarse</button></Link>
                     </div>
                 </div>

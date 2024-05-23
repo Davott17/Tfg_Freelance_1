@@ -3,7 +3,7 @@ import Header from '../widgets/header'
 import Fondo from '../widgets/fondo'
 import Opciones from '../widgets/opcion'
 import Conocenos from "../widgets/conocenos"
-
+import Galeria from "../widgets/galeria"
 function Inicio() {
     return (
 
@@ -12,6 +12,7 @@ function Inicio() {
                 <Header />
                 <Fondo />
                 <Opciones />
+                <Galeria />
                 <Conocenos />
             </div>
         </>

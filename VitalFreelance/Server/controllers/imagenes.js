@@ -1,6 +1,7 @@
 const Oferta = require ("../models/ofertas")
 const FileSchema = require("../models/gridFS")
-const gfs = require("../index")
+const gfs = require("../index");
+const { response } = require("../app");
 
 // Assuming required modules and schemas (FileSchema, Oferta) are already imported
 
@@ -11,15 +12,7 @@ async function uploadSingle(req, res) {
   console.log(req.file);
 
   try {
-      const nuevaImage = new FileSchema({
-        __filename,
-        contentType,
-        length,
-        chunkSize,
-        uploadDate,
-        aliases,
-        metadata,
-      });
+      const nuevaImage = new FileSchema(req.file);
 
       await nuevaImage.save();
 
@@ -117,8 +110,11 @@ async function mostrarTodasOfertasConImagenes(req, res) {
         const imageFile = await FileSchema.findOne({ _id: oferta.Image });
         console.log('Imagen encontrada:', imageFile);
 
-        if (imageFile && (imageFile.contentType === 'image/jpeg' || imageFile.contentType === 'image/png')) {
-          const imageUrl = `uploads\\${imageFile.filename}`;
+        if (imageFile && (imageFile.mimetype === 'image/jpeg' ||imageFile.mimetype === 'image/jpg' || imageFile.mimetype === 'image/png')) {
+          const fs = require('fs');
+          const imageData = fs.readFileSync(imageFile.path);
+          const base64Image = Buffer.from(imageData).toString('base64');
+          const imageUrl = `data:${imageFile.mimetype};base64,${base64Image}`;
           return { ...oferta._doc, imageUrl };
         } else {
           return { ...oferta._doc, imageUrl: null };

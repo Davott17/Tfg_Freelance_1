@@ -8,7 +8,7 @@ function Fondo() {
 
     return (
         <>
-            <div className='contenedor_imagen'>
+            <div className='contendor_imagen'>
             <img className="imagen" src={imagen} alt="" />
                 <div className='contenedor_central'>
                     <h1>Encuentra tu camino  al bienestar con <b>VitalFreelance</b></h1>

@@ -17,7 +17,7 @@ async function register(req, res) {
         if (existingUser) {
             const errorField = existingUser.usuario === usuario ? "usuario" : "email";
             console.log(`error${errorField.charAt(0).toUpperCase() + errorField.slice(1)}`);
-            return res.status(400).json({ error: `${errorField} is already taken`, toastStatus: `error${errorField.charAt(0).toUpperCase() + errorField.slice(1)}` }); 
+            return res.status(400).json({ error: `${errorField} is already taken`, toastStatus: `error${errorField.charAt(0).toUpperCase() + errorField.slice(1)}` });
         }
 
         // 4. Password Hashing
@@ -44,7 +44,7 @@ async function login(req, res) {
     const { email, password } = req.body;
     try {
         console.log(email)
-        const admin = await user.findOne({ email });
+        const admin = await user.findOne({ email }); 
         if (!admin) throw { msg: "Error en email o contraseña" };
         const isMatch = await bcryptjs.compare(password, admin.password);
 
@@ -54,31 +54,75 @@ async function login(req, res) {
 
         const payload = {
             user: {
-                id: admin.id // Use admin.id instead of user.id
+                _id: admin.id// Use admin.id instead of user.id
             }
         };
 
         const expiresIn = "1d";
         const token = jwt.createToken(payload, SECRET_KEY, { expiresIn }); // Definir la variable token
         console.log(token); // Log payload and token
-        res.json({ token }); // Send the token in the response
+        res.json({ token, email }); // Send the token in the response
     } catch (err) {
         console.error(err.message);
         res.status(500).json('Server error');
     }
 }
-async function getDatalog(req,res){
+// async function getDatalog(req,res){
+//     console.log(req.params);
+//     try {
+//         const data = await user.find(req.params.id);
+//         console.log(data)
+//         res.status(200).json(data);
+
+//         // broadcast("Un cliente se ha conectado al index")
+//     } catch (error) {
+
+//         res.status(500).send(error);
+//     }
+// }
+
+
+// async function getDatalog(req, res) {
+//     try {
+//         console.log(req.body);
+//         const data = await user.find({})
+//         console.log(data.email); // Verifica qué parámetros se están recibiendo en la solicitud
+
+//         try {
+//             // Utiliza el método correcto para buscar datos en la base de datos, dependiendo de cómo esté estructurado tu modelo de usuario (user).
+//             // Aquí estoy suponiendo que quieres buscar un usuario por su ID, por lo que utilizaré findById
+//             const userData = await user.findOne({ email });
+//             console.log(userData);
+//             if (!userData) { // Comprueba si no se encontraron datos para el ID proporcionado
+//                 return res.status(404).json({ message: 'Usuario no encontrado' });
+//             }
+//             // Si se encontraron datos, envíalos como respuesta
+//             res.status(200).json(userData);
+//         } catch (error) {
+//             console.error('Error al buscar datos:', error);
+//             res.status(500).json({ message: 'Error interno del servidor' });
+//         }
+//     } catch (error) {
+//         console.error('Error al buscar datos:', error);
+//         res.status(500).json({ message: 'Error interno del servidor' });
+//     }
+// }
+
+async function getDatalog(req, res) {
+    const email = req.query.email; // Obtener el email de la solicitud
+    console.log(`Email recibido: ${email}`);
     try {
-        console.log(req.body);
-        const data = await user.find({})
-        res.status(200).json(data);
-        // broadcast("Un cliente se ha conectado al index")
+        const userData = await user.findOne({ email }); // Buscar el usuario por email
+        if (!userData) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        res.status(200).json(userData);
     } catch (error) {
-       
-        res.status(500).send(error);
+        console.error('Error al buscar datos del usuario:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
     }
 }
-
 
 
 module.exports = {

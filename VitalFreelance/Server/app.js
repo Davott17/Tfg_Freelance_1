@@ -37,13 +37,12 @@ const broadcast = (mensaje) => {
 
 // Cargar rutas
 const user_routes = require("./routes/user")
+const ofertas_routes = require("./routes/imagenes")
 const cors = require("cors");
 // Rutas base
 app.use(cors());
-app.use(fileUpload({
-    tempFileDir: '/temp'
-}))
 app.use("/api", user_routes);
+app.use("/api/oferta", ofertas_routes);
 
 
 module.exports = app;

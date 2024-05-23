@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 const SECRET_KEY = "ajdsdfuqkk39234sdfs742323499sdfhssdfss";
 
 function createToken(user, expiresIn) {
-    const {id, email} = user;
-    const payload = {id, email};
+    const _id = user;
+    const payload = {_id};
     const token = jwt.sign( payload, SECRET_KEY, { expiresIn: "1d" }); 
     return token;
 }

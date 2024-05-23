@@ -5,7 +5,7 @@ function Conocenos() {
 
     return (
         <>
-            <div className='contenedor_bienestar color'>
+            <div className='contenedor_bienestar color body_background_naranja'>
                 <div className='contenedor_texto_bienestar'>
                     <div>
                         <h2 className='titulo_opciones'>Toma el control de tu bienestar con la guía de un experto freelance en salud y bienestar</h2>

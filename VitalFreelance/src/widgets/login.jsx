@@ -24,7 +24,7 @@ function Login() {
         const token = localStorage.getItem('admin');
         if (token) {
             setAuthenticated(true);
-            navigate("/paneladmin");
+            navigate("/areaCliente");
 
         }
     }, []);
@@ -42,6 +42,7 @@ function Login() {
             const data = await response.json();
             if (data.token) {
                 localStorage.setItem('admin', data.token);
+                localStorage.setItem('email', data.email);
                 setAuthenticated(true);
                 window.location.reload()
             } else {

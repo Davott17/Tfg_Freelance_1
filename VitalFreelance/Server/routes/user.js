@@ -1,14 +1,15 @@
 const express = require("express");
-const Usercontroler = require("../controllers/user");
+const usercontroler = require("../controllers/user");
 const md_auth = require("../middleware/authentication");
-
 const router = express.Router();
 
-router.post("/register", Usercontroler.register);
-router.post( "/login" ,Usercontroler.login);
-router.post("/getdata" , Usercontroler.getDatalog);
 
-router.get("/protected", [md_auth.ensureAuth], Usercontroler.protected);
+router.post("/register", usercontroler.register);
+router.post( "/login" ,usercontroler.login);
+// router.get("/getDatalog/:id" , usercontroler.getDatalog);
+router.get("/getDatalog" , usercontroler.getDatalog);
+
+// router.get("/protected", [md_auth.ensureAuth], usercontroler.protected);
 
 
 module.exports = router;

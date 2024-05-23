@@ -1,0 +1,33 @@
+.contenedor_oferta{
+    position: relative;
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    color: black;
+    padding: 20px;
+    flex-direction: column;
+}
+.fondo_blanco{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input_l_text{
+    width: 755px;
+    height: 157px;
+}
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: red;
+}

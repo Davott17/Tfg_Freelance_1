@@ -1,5 +1,5 @@
-html{
-  background-color: #F7A80F;
+body{
+  background-color: rgb(53, 53, 53);
 }
 
 .imagen{
@@ -59,7 +59,7 @@ html{
 }
 .contenedor_imagen{
   position: relative;
-  
+  z-index: 0;
 }
 
 .gap{

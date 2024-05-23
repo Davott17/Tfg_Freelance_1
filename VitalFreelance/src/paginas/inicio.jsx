@@ -8,11 +8,13 @@ function Inicio() {
     return (
 
         <>
-            <Header />
-            <Fondo />
-            <Opciones />
-            <Conocenos />
+            <div className="body_background_naranja">
+                <Header />
+                <Fondo />
+                <Opciones />
+                <Conocenos />
+            </div>
         </>
     )
 }
- export default Inicio
+export default Inicio

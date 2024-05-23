@@ -6,7 +6,8 @@ import '../CSS/header_logueado.css'
 function header() {
     return (
         <>
-            <div className="fondo flex logo_absoluto">
+        
+            <div className="fondo_header_log  flex logo_absoluto">
                 <div className='centrar flex zona1'>
                     <img className='logo' src={logo} alt="" />
                     <img className='logo_nombre' src={logo_nombre} alt="" />

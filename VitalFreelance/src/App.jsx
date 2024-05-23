@@ -13,6 +13,8 @@ import Login from './widgets/login';
 import FRTD from './widgets/freelance_tienda_R';
 import AreaCliente from './paginas/areaCliente';
 import RegistroImagen from './widgets/OfertaCrear'
+import Buscador from './paginas/buscador'
+import Oferta from './paginas/oferta'
 
 function AppContent() {
   return (
@@ -24,6 +26,8 @@ function AppContent() {
         <Route path='/Registro/freelance' element={<FRTD />} />
         <Route path='/areaCliente' element={<AreaCliente />} />
         <Route path='/RegistroOferta' element={<RegistroImagen />} />
+        <Route path='/buscador' element={<Buscador />} />
+        <Route path='/oferta' element={<Oferta />} />
       </Routes>
     </>
   )

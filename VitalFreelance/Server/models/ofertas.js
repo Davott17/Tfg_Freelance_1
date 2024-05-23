@@ -14,9 +14,9 @@ const OferSchema = Schema({
         type: String,
         require:true,
     },
-    Image:{
-        type: String, 
-        require:true
+    Image: {
+        type: Schema.Types.ObjectId,
+        ref: 'File'
     },
     zona_trabajo:{
         type: String,

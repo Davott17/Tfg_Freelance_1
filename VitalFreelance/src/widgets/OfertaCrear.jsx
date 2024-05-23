@@ -8,7 +8,7 @@ const RegistroImagen = () => {
         description: "",
         zona_trabajo: "",
         ocupacion: "",
-        Image: null,
+        Image: [],
         email: email,
     });
 

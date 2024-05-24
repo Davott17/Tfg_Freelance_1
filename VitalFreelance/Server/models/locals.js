@@ -14,7 +14,8 @@ const localSchema = Schema({
         require:true,
     },
     image:{
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'File',
         require:true,
     },
     zona_trabajo:{

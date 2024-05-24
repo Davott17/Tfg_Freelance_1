@@ -8,9 +8,6 @@ const { response } = require("../app");
 async function uploadSingle(req, res) {
   const { title, description, zona_trabajo, ocupacion, email } = req.body;
 
-  console.log(req.body);
-  console.log(req.file);
-
   try {
       const nuevaImage = new FileSchema(req.file);
 

@@ -56,3 +56,4 @@ function Galeria() {
 
 
 export default Galeria
+

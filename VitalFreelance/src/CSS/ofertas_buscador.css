@@ -1,0 +1,34 @@
+
+.row_wrap{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    height: 100vh;
+    flex-wrap: wrap;
+}
+.imagen_fondo_oferta{
+    position: relative;
+    width: 100%;
+    width: 300px;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+    right: 0;
+  }
+  .oferta_contenedor{
+    padding: 10px;
+    /* border: 1px solid white; */
+    width: 300px;
+  }
+
+.oferta_texto {
+    text-align: center;
+    font-size: 12px;
+}
+
+.overflow_Text {
+
+    text-overflow: ellipsis;
+     overflow-x: hidden;
+    white-space: nowrap;
+}

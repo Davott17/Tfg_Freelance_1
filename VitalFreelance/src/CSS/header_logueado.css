@@ -5,11 +5,60 @@
 .avatar{
     background-color: transparent;
     border: 1px solid white;
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
 }
 .avatar:hover{
     cursor: pointer;
     
 }
+/* header_logueado.css */
+/* header_logueado.css */
+
+.zona1 {
+    margin-right: auto;
+}
+
+.zona2 {
+    margin-left: auto;
+    padding-right: 60px;
+}
+
+
+.avatar {
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.1);
+}
+
+.logout-button {
+    color: #ffffff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #cc0000;
+}
+
+.avatar-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.logout-button.not-clickable {
+    background-color: #ff7300; /* Cambiar el color de fondo cuando el botón no es pulsable */
+}
+

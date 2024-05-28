@@ -29,6 +29,14 @@ function Login() {
         }
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem('admin');
+        localStorage.removeItem('email');
+        setAuthenticated(false);
+        // Redirigir a la página de inicio u otra página deseada
+        // navigate('/'); // Si estás utilizando react-router-dom
+        window.location.reload(); // Recargar la página para asegurar que se apliquen los cambios
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
 

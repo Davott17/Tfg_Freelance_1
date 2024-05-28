@@ -1,9 +1,10 @@
 .map-wrap {
+  display: block;
     position: relative;
     justify-content: center;
-    margin-top: 70px;
+    margin-top: 80px;
     width: 100%;
-    height: calc(100vh - 70px); /* calculate height of the screen minus the heading */
+    height: calc(100vh - 80px); /* calculate height of the screen minus the heading */
   }
   
   .map {

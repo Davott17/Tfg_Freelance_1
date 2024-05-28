@@ -3,9 +3,9 @@
 }
 
 .contenedor_lateral_cliente{
-    position: relative;
-    top: 5%;
-    left: 30%;
+    position: absolute;
+    top: 12.7%;
+    left: 5%;
     background-color: #F7A80F;
     color: black;
     width: 300px;

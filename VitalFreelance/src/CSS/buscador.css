@@ -1,8 +1,8 @@
 .contendor_ofertas{
     display: flex;
     flex-grow: 2;
-    height: calc(100vh - 72px);
-    margin-top: 70px;
+    height: calc(100vh - 82px);
+    margin-top: 80px;
     border: 1px solid white;
     overflow-y: scroll;
     flex-direction: column;
@@ -15,7 +15,7 @@
 .mitad{
     display: flex;
     width: 100%;
-    
+    aspect-ratio: 16/9;    
 }
 
 .sticky-container {

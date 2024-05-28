@@ -6,10 +6,11 @@ import Header_log from "../widgets/header_logueado"
 function areaCliente() {
     return (
         <>
-        
-            <Header_log />
-            <Panel_lateral />
-            <Panel_central />
+            <div className="flex">
+                <Header_log />
+                <Panel_lateral />
+                <Panel_central />
+            </div>
         </>
     )
 }

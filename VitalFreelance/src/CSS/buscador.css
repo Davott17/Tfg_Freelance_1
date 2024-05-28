@@ -1,0 +1,35 @@
+.contendor_ofertas{
+    display: flex;
+    flex-grow: 2;
+    height: calc(100vh - 72px);
+    margin-top: 70px;
+    border: 1px solid white;
+    overflow-y: scroll;
+    flex-direction: column;
+    align-items: center;
+    min-width: 600px;
+}
+@import url("https://unpkg.com/leaflet@1.9.3/dist/leaflet.css");
+#map { width: 100%; height: 580px; }
+
+.mitad{
+    display: flex;
+    width: 100%;
+    
+}
+
+.sticky-container {
+    position: -webkit-sticky; /* Para soporte en Safari */
+    position: sticky;
+    top: 0; /* Pegado al top de la página */
+    width: 100%;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    background-color: white; /* Fondo blanco para que no se mezcle con el contenido */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Añadir una sombra para destacarlo */
+  }
+  
+  .sticky-element {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+  }

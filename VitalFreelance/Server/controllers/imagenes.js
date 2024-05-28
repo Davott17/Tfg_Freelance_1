@@ -1,35 +1,58 @@
 const Oferta = require ("../models/ofertas")
 const FileSchema = require("../models/gridFS")
+const axios = require('axios');
 const gfs = require("../index");
 const { response } = require("../app");
+const ofertas = require("../models/ofertas");
+
+const GOOGLE_MAPS_API_KEY ='AIzaSyDJCrqVEriiUOGwpzfm8S5prPH4SB_rBWo';
 
 // Assuming required modules and schemas (FileSchema, Oferta) are already imported
 
 async function uploadSingle(req, res) {
   const { title, description, zona_trabajo, ocupacion, email } = req.body;
-
+console.log(req.body);
   try {
-      const nuevaImage = new FileSchema(req.file);
+    // Geocodificar la dirección
+    const geoResponse = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
+      params: {
+        address: zona_trabajo,
+        key: GOOGLE_MAPS_API_KEY
+      }
+    });
+    console.log(geoResponse);
+    if (geoResponse.data.status !== 'OK') {
+      return res.status(400).json({ error: 'Error al geocodificar la dirección' });
+    }
 
-      await nuevaImage.save();
+    const location = geoResponse.data.results[0].geometry.location;
+    const coordinates = {
+      lat: location.lat,
+      lng: location.lng
+    };
+    console.log(location);
+    // Crear y guardar la imagen
+    const nuevaImage = new FileSchema(req.file);
+    await nuevaImage.save();
 
-      const nuevaOferta = new Oferta({
-          title,
-          description,
-          Image: nuevaImage._id, // Save reference to the image file
-          zona_trabajo,
-          ocupacion,
-          email,
-      });
+    // Crear y guardar la oferta con las coordenadas
+    const nuevaOferta = new Oferta({
+      title,
+      description,
+      Image: nuevaImage._id,  // Guardar referencia al archivo de imagen
+      zona_trabajo: coordinates,  // Guardar las coordenadas en lugar de la dirección
+      ocupacion,
+      email,
+    });
 
-      await nuevaOferta.save();
+    await nuevaOferta.save();
 
-      res.json({ file: req.file, message: 'File uploaded successfully' });
+    res.json({ file: req.file, message: 'File uploaded and offer saved successfully' });
   } catch (error) {
-      res.status(500).json({ error: "Internal server error" });
+    console.error('Error interno del servidor:', error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
-
 
 
 // async function Mostrar1imagen(req, res) {
@@ -94,18 +117,23 @@ async function uploadSingle(req, res) {
 
 async function mostrarTodasOfertasConImagenes(req, res) {
   try {
-    const ofertas = await Oferta.find().populate('Image');
-    console.log('Ofertas encontradas:', ofertas);
-   
+    const ocupacion = req.query.ocupacion;
+    let ofertas;
+
+    // Filtrar ofertas por ocupación si se proporciona, de lo contrario, obtener todas las ofertas
+    if (ocupacion) {
+      ofertas = await Oferta.find({ ocupacion: new RegExp(ocupacion, 'i') }).populate('Image');
+    } else {
+      ofertas = await Oferta.find().populate('Image');
+    }
     if (!ofertas || ofertas.length === 0) {
       return res.status(404).json({ error: 'No se encontraron ofertas' });
     }
-   
 
     const ofertasConImagenes = await Promise.all(ofertas.map(async (oferta) => {
       try {
         const imageFile = await FileSchema.findOne({ _id: oferta.Image });
-        console.log('Imagen encontrada:', imageFile);
+        // console.log('Imagen encontrada:', imageFile);
 
         if (imageFile && (imageFile.mimetype === 'image/jpeg' ||imageFile.mimetype === 'image/jpg' || imageFile.mimetype === 'image/png')) {
           const fs = require('fs');
@@ -121,6 +149,7 @@ async function mostrarTodasOfertasConImagenes(req, res) {
         return { ...oferta._doc, imageUrl: null };
       }
     }));
+    
 
     res.json(ofertasConImagenes);
   } catch (error) {
@@ -130,10 +159,14 @@ async function mostrarTodasOfertasConImagenes(req, res) {
 }
 
 
+async function buscar(){
+
+}
+
 
 
 module.exports = {
-    // Mostrar1imagen,
+    buscar,
     uploadSingle,
     // mostrarOfertaConImagen,
     mostrarTodasOfertasConImagenes,

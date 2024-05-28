@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 router.post('/registrar-imagen',upload.single('Image'), Imagencontroler.uploadSingle);
+router.post('/buscar',upload.single('Image'), Imagencontroler.buscar);
 
 // router.get("/files/:filename", Imagencontroler.Mostrar1imagen)
 router.get("/ofertas-con-imagenes", Imagencontroler.mostrarTodasOfertasConImagenes);

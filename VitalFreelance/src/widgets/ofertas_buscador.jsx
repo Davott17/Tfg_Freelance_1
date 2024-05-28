@@ -1,17 +1,18 @@
+// /src/widgets/ofertas_buscador.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../CSS/ofertas_buscador.css'
+import '../CSS/ofertas_buscador.css';
 
-
-
-const TodasLasOfertas = () => {
+const TodasLasOfertas = ({ ocupacion }) => {
     const [ofertas, setOfertas] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchOfertasConImagenes = async () => {
             try {
-                const response = await axios.get('http://localhost:3977/api/oferta/ofertas-con-imagenes');
+                const response = await axios.get('http://localhost:3977/api/oferta/ofertas-con-imagenes', {
+                    params: { ocupacion }
+                });
                 console.log(response);
                 setOfertas(response.data);
             } catch (error) {
@@ -20,7 +21,7 @@ const TodasLasOfertas = () => {
         };
 
         fetchOfertasConImagenes();
-    }, []);
+    }, [ocupacion]);
 
     if (error) {
         return <div>{error}</div>;
@@ -31,26 +32,22 @@ const TodasLasOfertas = () => {
     }
 
     return (
-        <>
-            <div className='row_wrap'>
-                {ofertas.map((oferta) => (
-                    <div className='oferta_contenedor ' key={oferta._id}>
-
-                        {oferta.imageUrl ? (
-                            <img className='imagen_fondo_oferta' src={oferta.imageUrl} alt={oferta.title} />
-                        ) : (
-                            <p>No hay imagen disponible</p>
-                        )}
-                        <div className=''>
-
-                            <p>{oferta.title}</p>
-                            <p className='overflow_Text'>{oferta.description}</p>
-                            <p>Ocupación: {oferta.ocupacion}</p>
-                        </div>
+        <div className='row_wrap'>
+            {ofertas.map((oferta) => (
+                <div className='oferta_contenedor' key={oferta._id}>
+                    {oferta.imageUrl ? (
+                        <img className='imagen_fondo_oferta' src={oferta.imageUrl} alt={oferta.title} />
+                    ) : (
+                        <p>No hay imagen disponible</p>
+                    )}
+                    <div>
+                        <p>{oferta.title}</p>
+                        <p className='overflow_Text'>{oferta.description}</p>
+                        <p>Ocupación: {oferta.ocupacion}</p>
                     </div>
-                ))}
-            </div>
-        </>
+                </div>
+            ))}
+        </div>
     );
 };
 

@@ -1,10 +1,35 @@
-
+.input_buscador{
+  margin-top: 20px;
+}
+input[type="search"]::before {
+  content: "\f002"; /* Código de Font Awesome para la lupa */
+  font-family: "Font Awesome 5 Free";
+  font-size: 16px;
+  font-weight: 900;
+  display: inline-block;
+  padding-right: 10px; /* Espacio entre el icono y el texto */
+}
+input[type="search"] {
+  background-image: url("../assets/lupa.png"); 
+  background-size: 20px 20px;/* Ruta de la imagen de la lupa */
+  background-repeat: no-repeat;
+  background-position: 5px center; /* Posición de la imagen */
+  padding-left: 30px; /* Espacio para la imagen */
+}
+.input_buscador > input{
+  width: 400px;
+  height: 30px;
+  background-color: white;
+  color: black;
+  border-radius: 16px;
+  border: 0;
+}
 .row_wrap{
     display: flex;
     flex-direction: row;
     position: relative;
-    height: 100vh;
     flex-wrap: wrap;
+    justify-content: center;
 }
 .imagen_fondo_oferta{
     position: relative;

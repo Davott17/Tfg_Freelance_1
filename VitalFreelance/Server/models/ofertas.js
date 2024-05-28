@@ -19,9 +19,12 @@ const OferSchema = Schema({
         ref: 'File'
     },
     zona_trabajo:{
-        type: String,
-        require:true,
-    },
+        type: {
+            lat: Number,
+            lng: Number
+          },
+          require:true,
+        },
     ocupacion:{
         type: String,
         require:true,

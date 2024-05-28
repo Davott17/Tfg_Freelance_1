@@ -22,7 +22,7 @@ const localSchema = Schema({
         type: String,
         require:true,
     },
-    tipo:{
+    ocupacion:{
         type: String,
         require:true,
     }

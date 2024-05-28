@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../CSS/oferta.css'
+import { useNavigate } from 'react-router-dom';
 
 const RegistroImagen = () => {
     const email = localStorage.getItem('email');
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -42,6 +44,7 @@ const RegistroImagen = () => {
 
             const data = await response.json();
             console.log(data);
+            navigate("/areaCliente");
         } catch (error) {
             console.error('Error:', error.message);
         }
@@ -55,7 +58,7 @@ const RegistroImagen = () => {
             <div className="contenedor_principal ">
                 <div className=''>
                     <h2>Registrar Oferta</h2>
-                    <form className='form_l' onSubmit={handleSubmit} encType="multipart/form-data">
+                    <form className='form_l' typeof='submit' onSubmit={handleSubmit} encType="multipart/form-data">
                         <div className='colunm'>
                             <label>Título:</label>
                             <input className="input_l" type="text" name='title' onChange={handleChange} />

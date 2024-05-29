@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../CSS/oferta.css'
+import '../CSS/oferta.css';
 import { useNavigate } from 'react-router-dom';
 
 const RegistroImagen = () => {
@@ -14,36 +14,37 @@ const RegistroImagen = () => {
         email: email,
     });
 
-    const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        const newFiles = Array.from(files);
-        setFormData({ ...formData, [name]: newFiles });
-    };
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        // Si es un campo de archivo (input type="file"), establece el archivo en lugar del valor
+        const newValue = files ? Array.from(files) : value;
+        setFormData({ ...formData, [name]: newValue });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(formData.Image);
         try {
+            // Crear un objeto FormData
             const formDataToSend = new FormData();
-            // Agregar archivos al FormData
-            formData.Image.forEach((file, index) => {
-                formDataToSend.append(`Image${index}`, file);
+            Object.entries(formData).forEach(([key, value]) => {
+                if (Array.isArray(value)) { // Verifica si el valor es un array
+                    value.forEach((item, index) => { // Itera sobre cada elemento del array
+                        formDataToSend.append(`${key}[${index}]`, item); // Adjunta cada elemento al FormData
+                    });
+                } else {
+                    formDataToSend.append(key, value); // Si no es un array, simplemente adjunta el valor al FormData
+                }
             });
-            // Agregar otros campos del formulario al FormData
-            formDataToSend.append('title', formData.title);
-            formDataToSend.append('description', formData.description);
-            formDataToSend.append('zona_trabajo', formData.zona_trabajo);
-            formDataToSend.append('ocupacion', formData.ocupacion);
-            formDataToSend.append('email', formData.email);
+            
 
-            const response = await fetch('http://localhost:3977/api/oferta/registrar-imagen', {
+
+            console.log([...formDataToSend]); // Debugging line to see the FormData content
+
+            const response = await fetch('http://localhost:3977/api/oferta/registrar-imagenes', {
                 method: 'POST',
-                body: formDataToSend
+                body: formDataToSend,
             });
 
             if (!response.ok) {
@@ -69,23 +70,23 @@ const RegistroImagen = () => {
                     <form className='form_l' typeof='submit' onSubmit={handleSubmit} encType="multipart/form-data">
                         <div className='colunm'>
                             <label>Título:</label>
-                            <input className="input_l" type="text" name='title' onChange={handleInputChange} />
+                            <input className="input_l" type="text" name='title' onChange={handleChange} />
                         </div>
                         <div className='colunm'>
                             <label>Descripción:</label>
-                            <textarea className="input_l_text" name='description' onChange={handleInputChange} height="40px" />
+                            <textarea className="input_l_text" name='description' onChange={handleChange} height="40px" />
                         </div>
                         <div className='colunm'>
                             <label>Zona de Trabajo:</label>
-                            <input type="text" className='input_l' name='zona_trabajo' onChange={handleInputChange} />
+                            <input type="text" className='input_l' name='zona_trabajo' onChange={handleChange} />
                         </div>
                         <div className='colunm'>
                             <label>Ocupación:</label>
-                            <input type="text" className='input_l' name='ocupacion' onChange={handleInputChange} />
+                            <input type="text" className='input_l' name='ocupacion' onChange={handleChange} />
                         </div>
                         <div className='colunm'>
-                            <label>Imagen:</label>
-                            <input type="file" className='inputfile' name='Image' accept="image/*" multiple onChange={handleFileChange} />
+                            <label>Imágenes:</label>
+                            <input type="file" className='inputfile' name='Image' accept="image/*" multiple onChange={handleChange} />
                         </div>
                         <button type="submit">Crear oferta</button>
                     </form>

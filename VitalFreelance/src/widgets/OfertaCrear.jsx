@@ -24,6 +24,7 @@ const RegistroImagen = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(formData.Image);
         try {
             // Crear un objeto FormData
             const formDataToSend = new FormData();
@@ -32,7 +33,7 @@ const RegistroImagen = () => {
                 formDataToSend.append(key, formData[key]);
             });
 
-            console.log(formDataToSend);
+            
             const response = await fetch('http://localhost:3977/api/oferta/registrar-imagen', {
                 method: 'POST',
                 body: formDataToSend, // Envía el FormData en lugar de JSON.stringify(formData)

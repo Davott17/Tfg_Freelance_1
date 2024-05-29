@@ -12,6 +12,7 @@ const GOOGLE_MAPS_API_KEY ='AIzaSyDJCrqVEriiUOGwpzfm8S5prPH4SB_rBWo';
 
 async function uploadSingle(req, res) {
   const { title, description, zona_trabajo, ocupacion, email } = req.body;
+  console.log(req.file)
   try {
     // Geocodificar la dirección
     const geoResponse = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
@@ -61,12 +62,17 @@ async function uploadSingle(req, res) {
 
 
 async function uploadMultiple(req, res) {
-  const { title, description, zona_trabajo, ocupacion, email } = req.body;
-  const files = req.files; // Array de archivos
-  console.log(req.body);
-  console.log(files);
-
+  console.log(req.files);
   try {
+    // req.files contendrá los archivos subidos
+    const files = req.files;
+    // req.body contendrá los demás campos del formulario
+    const { title, description, zona_trabajo, ocupacion, email } = req.body;
+
+    // Aquí puedes manejar los archivos y los datos del formulario, por ejemplo, guardarlos en la base de datos
+
+    console.log('Archivos:', files);
+    console.log('Datos del formulario:', req.body);
     // Geocodificar la dirección
     const geoResponse = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
       params: {
@@ -87,7 +93,7 @@ async function uploadMultiple(req, res) {
     console.log(location);
 
     // Crear y guardar las imágenes
-    const imagenesGuardadas = await Promise.all(files.map(async (file) => {
+    const imagenesGuardadas = await Promise.all(files.forEach(async (file) => {
       const nuevaImage = new FileSchema({
         fieldname: file.fieldname,
         originalname: file.originalname,

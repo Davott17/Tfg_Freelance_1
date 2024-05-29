@@ -15,6 +15,7 @@ import AreaCliente from './paginas/areaCliente';
 import RegistroImagen from './widgets/OfertaCrear'
 import Buscador from './paginas/buscador'
 import Oferta from './paginas/oferta'
+import Local from './widgets/LocalCrear'
 
 function AppContent() {
   return (
@@ -26,6 +27,7 @@ function AppContent() {
         <Route path='/Registro/freelance' element={<FRTD />} />
         <Route path='/areaCliente' element={<AreaCliente />} />
         <Route path='/RegistroOferta' element={<RegistroImagen />} />
+        <Route path='/RegistroLocal' element={<Local />} />
         <Route path='/buscador' element={<Buscador />} />
         <Route path='/oferta' element={<Oferta />} />
       </Routes>

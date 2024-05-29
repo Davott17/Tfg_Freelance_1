@@ -56,7 +56,7 @@ function PanelCentral({ email }) {
                 <div className='anadir'>
                     Añade tu local
                     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas sapiente, laborum architecto saepe cum, temporibus accusamus nostrum quam enim debitis asperiores repellendus in unde minima suscipit, quibusdam perspiciatis nobis quae?</p>
-                    <button className='button'>Añadir tu local ahora</button>
+                    <Link to="/RegistroLocal"><button className='button'>Añadir tu local</button></Link>
                 </div>
             </div>
         </div>

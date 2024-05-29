@@ -13,8 +13,10 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage });
+const multipleupload = multer({ storage: storage }).array('Image', 10);
 
+router.post('/registrar-imagenes', multipleupload, Imagencontroler.uploadMultiple); // 'images' es el nombre del campo en el formulario y 10 es el número máximo de archivos
 router.post('/registrar-imagen',upload.single('Image'), Imagencontroler.uploadSingle);
 router.post('/buscar',upload.single('Image'), Imagencontroler.buscar);
 

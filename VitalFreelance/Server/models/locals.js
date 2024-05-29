@@ -1,33 +1,32 @@
 const mongoose = require('mongoose');
-const {type} = require('os');
 const Schema = mongoose.Schema;
+const File = require("./gridFS");
 
-
-const localSchema = Schema({
-    title:{
+const localSchema = new Schema({
+    title: {
         type: String,
-        require:true,
-        
+        required: true, // corrected "require" to "required"
     },
-    description:{
+    description: {
         type: String,
-        require:true,
+        required: true, // corrected "require" to "required"
     },
-    image:{
+    Image: [{
         type: Schema.Types.ObjectId,
         ref: 'File',
-        require:true,
+        required: true, // corrected "require" to "required"
+    }],
+    zona_trabajo: {
+        type: {
+            lat: Number,
+            lng: Number
+        },
+        required: true, // corrected "require" to "required"
     },
-    zona_trabajo:{
+    ocupacion: {
         type: String,
-        require:true,
-    },
-    ocupacion:{
-        type: String,
-        require:true,
+        required: true, // corrected "require" to "required"
     }
-
-
 });
 
 module.exports = mongoose.model("Local", localSchema);

@@ -204,7 +204,7 @@ async function mostrarDetalleOfertaLocal(req, res) {
 
     // Si no se encuentra la oferta con el ID proporcionado, buscar el local por su ID
     if (!elemento) {
-      elemento = await Local.findById(id).populate('Image');
+      elemento = await locals.findById(id).populate('Image');
     }
 
     // Verificar si se encontró un elemento con el ID dado

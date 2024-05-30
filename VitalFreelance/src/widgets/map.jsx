@@ -5,7 +5,7 @@ import "@maptiler/sdk/dist/maptiler-sdk.css";
 import '../CSS/map.css';
 
 const Map = () => {
-  const [ofertas, setOfertas] = useState([]);
+  const [data, setData] = useState({ ofertas: [], locales: [] });
   const [error, setError] = useState(null);
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -19,7 +19,10 @@ const Map = () => {
       try {
         const response = await axios.get('http://localhost:3977/api/oferta/ofertas-con-imagenes');
         console.log(response);
-        setOfertas(response.data);
+        setData({
+          ofertas: response.data.ofertas || [],
+          locales: response.data.locales || [],
+        });
       } catch (error) {
         setError('Error al cargar las ofertas');
       }
@@ -40,14 +43,18 @@ const Map = () => {
   }, [madrid.lng, madrid.lat, zoom]);
 
   useEffect(() => {
-    if (!map.current || !ofertas.length) return;
+    if (!map.current || (!data.ofertas.length && !data.locales.length)) return;
 
-    ofertas.forEach((oferta) => {
-      new maptilersdk.Marker({ color: "#FF0000" })
-        .setLngLat([oferta.zona_trabajo.lng, oferta.zona_trabajo.lat])
-        .addTo(map.current);
+    const allMarkers = [...data.ofertas, ...data.locales];
+    
+    allMarkers.forEach((item) => {
+      if (item.zona_trabajo && item.zona_trabajo.lng && item.zona_trabajo.lat) {
+        new maptilersdk.Marker({ color: "#FF0000" })
+          .setLngLat([item.zona_trabajo.lng, item.zona_trabajo.lat])
+          .addTo(map.current);
+      }
     });
-  }, [ofertas]);
+  }, [data]);
 
   return (
     <div className="map-wrap">

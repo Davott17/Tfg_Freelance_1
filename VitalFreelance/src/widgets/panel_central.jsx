@@ -1,47 +1,49 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import '../CSS/panel_lateral.css';
-import Editar from '../assets/editar.png';
-import eliminar from '../assets/marca-x.png';
 
 function PanelCentral({ email }) {
-    const [ofertas, setOfertas] = useState([]);
+    const [data, setData] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchOfertasConImagenes = async () => {
+        const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:3977/api/oferta/ofertas-con-imagenes', {
                     params: { email }
                 });
-                console.log(response);
-                setOfertas(response.data);
+                const { ofertas, locales } = response.data;
+                const combinedData = [...ofertas, ...locales];
+                setData(combinedData);
             } catch (error) {
-                setError('Error al cargar las ofertas');
+                setError('Error al cargar los datos');
             }
         };
 
-        fetchOfertasConImagenes();
+        fetchData();
     }, [email]);
 
     return (
         <div className=''>
+            {error && <div>Error: {error}</div>}
             <div className='contenedor_central_cliente'>
                 <table>
                     <thead>
                         <tr>
-                            <th>Título</th>
-                            <th>Descripción</th>
-                            <th>Ocupación</th>
+                            <th>Título / Nombre</th>
+                            <th>Descripción / Dirección</th>
+                            <th>Ocupación / Teléfono</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
-                        {ofertas.map((oferta, index) => (
+                        {data.map((item, index) => (
+                            
                             <tr key={index}>
-                                <td>{oferta.title}</td>
-                                <td>{oferta.description}</td>
-                                <td>{oferta.ocupacion}</td>
+                                <td><Link to={`/Box_entrenamiento/${item._id}`} key={item._id} className='oferta_link'>{item.title || item.nombre}</Link></td>
+                                <td>{item.description || item.direccion}</td>
+                                <td>{item.ocupacion || item.telefono}</td>
                             </tr>
                         ))}
                     </tbody>

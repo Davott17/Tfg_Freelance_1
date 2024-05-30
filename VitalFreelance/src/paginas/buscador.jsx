@@ -8,7 +8,7 @@ import HeaderLog from '../widgets/header_logueado';
 
 function Buscador() {
     const [ocupacion, setOcupacion] = useState('');
-    const [ofertas, setOfertas] = useState([]);
+    const [data, setData] = useState({ ofertas: [], locales: [] });
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -16,18 +16,25 @@ function Buscador() {
             try {
                 const response = await axios.get('http://localhost:3977/api/oferta/ofertas-con-imagenes');
                 console.log(response);
-                setOfertas(response.data);
+                setData(response.data); // Usar setData en lugar de setOfertas
             } catch (error) {
                 setError('Error al cargar las ofertas');
             }
         };
 
         fetchOfertasConImagenes();
-    },[]);
+    }, []);
+
     const handleSearchChange = (event) => {
         setOcupacion(event.target.value);
     };
-    const uniqueOcupaciones = [...new Set(ofertas.map(oferta => oferta.ocupacion))];
+
+    const uniqueOcupaciones = [
+        ...new Set([
+            ...data.locales.map(local => local.ocupacion),
+            ...data.ofertas.map(oferta => oferta.ocupacion),
+        ])
+    ];
 
     return (
         <>
@@ -43,12 +50,12 @@ function Buscador() {
                             onChange={handleSearchChange}
                         />
                         <datalist id="sugerencias">
-                        {uniqueOcupaciones.map((ocupacion, index) => (
-                            <option key={index} value={ocupacion}></option>
-                        ))} 
+                            {uniqueOcupaciones.map((ocupacion, index) => (
+                                <option key={index} value={ocupacion}></option>
+                            ))}
                         </datalist>
                     </div>
-                    <TodasLasOfertas ocupacion={ocupacion} />
+                    <TodasLasOfertas ocupacion={ocupacion} ofertas={data.ofertas} locales={data.locales} />
                 </div>
                 <Map />
             </div>

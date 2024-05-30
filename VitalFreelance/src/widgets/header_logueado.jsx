@@ -39,9 +39,6 @@ function Header() {
                     onMouseEnter={() => setShowLogout(true)}
                     onMouseLeave={() => setShowLogout(false)}
                 >
-                    <Link to="/areaCliente">
-                        <img className='avatar' src={avatar} alt="avatar" />
-                    </Link>
                     {showLogout && (
                         <button
                             className={`logout-button ${logoutClickable ? '' : 'not-clickable'}`}
@@ -51,6 +48,9 @@ function Header() {
                             Log out
                         </button>
                     )}
+                    <Link to="/areaCliente">
+                        <img className='avatar' src={avatar} alt="avatar" />
+                    </Link> 
                 </div>
             </div>
         </div>

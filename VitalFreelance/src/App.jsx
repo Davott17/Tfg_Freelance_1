@@ -12,10 +12,11 @@ import Registro from './widgets/registro'
 import Login from './widgets/login';
 import FRTD from './widgets/freelance_tienda_R';
 import AreaCliente from './paginas/areaCliente';
-import RegistroImagen from './widgets/OfertaCrear'
-import Buscador from './paginas/buscador'
-import Oferta from './paginas/oferta'
-import Local from './widgets/LocalCrear'
+import RegistroImagen from './widgets/OfertaCrear';
+import Buscador from './paginas/buscador';
+import Oferta from './paginas/oferta';
+import Local from './widgets/LocalCrear';
+import Box_entrenamiento  from './paginas/Box_entrenamiento';
 
 function AppContent() {
   return (
@@ -30,6 +31,7 @@ function AppContent() {
         <Route path='/RegistroLocal' element={<Local />} />
         <Route path='/buscador' element={<Buscador />} />
         <Route path='/oferta' element={<Oferta />} />
+        <Route exact path="/Box_entrenamiento/:id" element={< Box_entrenamiento />}/>
       </Routes>
     </>
   )

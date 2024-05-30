@@ -110,7 +110,6 @@ async function login(req, res) {
 
 async function getDatalog(req, res) {
     const email = req.query.email; // Obtener el email de la solicitud
-    console.log(`Email recibido: ${email}`);
     try {
         const userData = await user.findOne({ email }); // Buscar el usuario por email
         if (!userData) {

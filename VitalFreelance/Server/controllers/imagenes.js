@@ -1,12 +1,12 @@
-const Oferta = require ("../models/ofertas")
-const locals = require ("../models/locals")
+const Oferta = require("../models/ofertas")
+const locals = require("../models/locals")
 const FileSchema = require("../models/gridFS")
 const axios = require('axios');
 const gfs = require("../index");
 const { response } = require("../app");
 const ofertas = require("../models/ofertas");
 
-const GOOGLE_MAPS_API_KEY ='AIzaSyDJCrqVEriiUOGwpzfm8S5prPH4SB_rBWo';
+const GOOGLE_MAPS_API_KEY = 'AIzaSyDJCrqVEriiUOGwpzfm8S5prPH4SB_rBWo';
 
 // Assuming required modules and schemas (FileSchema, Oferta) are already imported
 
@@ -93,8 +93,9 @@ async function uploadMultiple(req, res) {
     console.log(location);
 
     // Crear y guardar las imágenes
-    const imagenesGuardadas = await Promise.all(files.forEach(async (file) => {
-      const nuevaImage = new FileSchema({
+    const imagenesGuardadas = [];
+    for (const file of files) {
+      let nuevaImage = new FileSchema({
         fieldname: file.fieldname,
         originalname: file.originalname,
         encoding: file.encoding,
@@ -104,9 +105,11 @@ async function uploadMultiple(req, res) {
         path: file.path,
         size: file.size
       });
-      await nuevaImage.save();
-      console.log(nuevaImage);
-    }));
+      const imagenGuardada = await nuevaImage.save();
+      imagenesGuardadas.push(imagenGuardada);
+    }
+
+    console.log(imagenesGuardadas);
 
     // Crear y guardar la oferta con las coordenadas y las referencias a las imágenes
     const nuevoLocal = new locals({
@@ -138,39 +141,49 @@ async function mostrarTodasOfertasConImagenes(req, res) {
   try {
     const ocupacion = req.query.ocupacion;
     let ofertas;
+    let locales;
 
     // Filtrar ofertas por ocupación si se proporciona, de lo contrario, obtener todas las ofertas
     if (ocupacion) {
       ofertas = await Oferta.find({ ocupacion: new RegExp(ocupacion, 'i') }).populate('Image');
+      locales = await locals.find({ ocupacion: new RegExp(ocupacion, 'i') }).populate('Image');
     } else {
       ofertas = await Oferta.find().populate('Image');
+      locales = await locals.find().populate('Image');
     }
     if (!ofertas || ofertas.length === 0) {
       return res.status(404).json({ error: 'No se encontraron ofertas' });
     }
+    if (!locales || locales.length === 0) {
+      return res.status(404).json({ error: 'No se encontraron ofertas' });
+    }
 
-    const ofertasConImagenes = await Promise.all(ofertas.map(async (oferta) => {
-      try {
-        const imageFile = await FileSchema.findOne({ _id: oferta.Image });
-        // console.log('Imagen encontrada:', imageFile);
+    const procesarImagenes = async (items, isLocal) => {
+      return await Promise.all(items.map(async (item) => {
+        try {
+          const imageFileId = isLocal ? item.Image[0] : item.Image;
+          const imageFile = await FileSchema.findOne({ _id: imageFileId });
 
-        if (imageFile && (imageFile.mimetype === 'image/jpeg' ||imageFile.mimetype === 'image/jpg' || imageFile.mimetype === 'image/png')) {
-          const fs = require('fs');
-          const imageData = fs.readFileSync(imageFile.path);
-          const base64Image = Buffer.from(imageData).toString('base64');
-          const imageUrl = `data:${imageFile.mimetype};base64,${base64Image}`;
-          return { ...oferta._doc, imageUrl };
-        } else {
-          return { ...oferta._doc, imageUrl: null };
+          if (imageFile && ['image/jpeg', 'image/jpg', 'image/png'].includes(imageFile.mimetype)) {
+            const fs = require('fs');
+            const imageData = fs.readFileSync(imageFile.path);
+            const base64Image = Buffer.from(imageData).toString('base64');
+            const imageUrl = `data:${imageFile.mimetype};base64,${base64Image}`;
+            return { ...item._doc, imageUrl };
+          } else {
+            return { ...item._doc, imageUrl: null };
+          }
+        } catch (imageError) {
+          console.error('Error al buscar la imagen:', imageError);
+          return { ...item._doc, imageUrl: null };
         }
-      } catch (imageError) {
-        console.error('Error al buscar la imagen:', imageError);
-        return { ...oferta._doc, imageUrl: null };
-      }
-    }));
-    
+      }));
+    };
+    const ofertasConImagenes = await procesarImagenes(ofertas);
+    const localesConImagenes = await procesarImagenes(locales);
 
-    res.json(ofertasConImagenes);
+    res.json({ ofertas: ofertasConImagenes, locales: localesConImagenes });
+
   } catch (error) {
     console.error('Error interno del servidor:', error);
     res.status(500).json({ error: "Error interno del servidor" });
@@ -178,16 +191,64 @@ async function mostrarTodasOfertasConImagenes(req, res) {
 }
 
 
-async function buscar(){
 
+
+
+
+async function mostrarDetalleOfertaLocal(req, res) {
+  try {
+    const id = req.params.id; // Obtener el ID de la solicitud
+
+    let elemento;
+    elemento = await Oferta.findById(id).populate('Image');
+
+    // Si no se encuentra la oferta con el ID proporcionado, buscar el local por su ID
+    if (!elemento) {
+      elemento = await Local.findById(id).populate('Image');
+    }
+
+    // Verificar si se encontró un elemento con el ID dado
+    if (!elemento) {
+      return res.status(404).json({ error: 'No se encontró ningún elemento con el ID proporcionado' });
+    }
+
+    const procesarImagen = async (item) => {
+      try {
+        const imageFileId = item.Image;
+        const imageFile = await FileSchema.findOne({ _id: imageFileId });
+
+        if (imageFile && ['image/jpeg', 'image/jpg', 'image/png'].includes(imageFile.mimetype)) {
+          const fs = require('fs');
+          const imageData = fs.readFileSync(imageFile.path);
+          const base64Image = Buffer.from(imageData).toString('base64');
+          const imageUrl = `data:${imageFile.mimetype};base64,${base64Image}`;
+          return { ...item._doc, imageUrl };
+        } else {
+          return { ...item._doc, imageUrl: null };
+        }
+      } catch (imageError) {
+        console.error('Error al buscar la imagen:', imageError);
+        return { ...item._doc, imageUrl: null };
+      }
+    };
+
+    const elementoConImagen = await procesarImagen(elemento);
+
+    res.json(elementoConImagen); // Devolver el elemento con su imagen procesada
+
+  } catch (error) {
+    console.error('Error interno del servidor:', error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
 }
 
 
 
+
 module.exports = {
-    buscar,
-    uploadSingle,
-    uploadMultiple,
-    mostrarTodasOfertasConImagenes,
+  uploadSingle,
+  uploadMultiple,
+  mostrarTodasOfertasConImagenes,
+  mostrarDetalleOfertaLocal
 
 };

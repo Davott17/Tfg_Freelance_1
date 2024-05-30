@@ -17,7 +17,6 @@ function PanelLateral() {
             console.log(email);
             const res = await axios.get(`http://localhost:3977/api/getDatalog?email=${email}`); // Pasar el email como parámetro de consulta
             setData(res.data);
-            console.log(res.data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }

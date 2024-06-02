@@ -2,7 +2,6 @@
     display: flex;
     flex-grow: 1;
     height: calc(100vh - 82px);
-    margin-top: 80px;
     border: 1px solid white;
     overflow-y: scroll;
     flex-direction: column;
@@ -15,21 +14,4 @@
 .mitad{
     display: flex;
     width: 100%;
-    aspect-ratio: 16/9;    
 }
-
-.sticky-container {
-    position: -webkit-sticky; /* Para soporte en Safari */
-    position: sticky;
-    top: 0; /* Pegado al top de la página */
-    width: 100%;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-    background-color: white; /* Fondo blanco para que no se mezcle con el contenido */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Añadir una sombra para destacarlo */
-  }
-  
-  .sticky-element {
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-  }

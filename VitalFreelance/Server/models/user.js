@@ -34,7 +34,7 @@ const UserSchema = Schema({
         type: String,
         require:false,
     },
-    trabajo:{
+    zona_trabajo:{
         type: String,
         require:false,
     },

@@ -27,7 +27,7 @@ function Header() {
     }, [token, navigate]);
 
     return (
-        <div className="fondo_header_log flex logo_absoluto">
+        <div className="fondo_header_log flex ">
             <div className='centrar flex zona1'>
                 <Link to='/areaCliente'><img className='logo' src={logo} alt="" /></Link>
                 <Link to='/areaCliente'><img className='logo_nombre' src={logo_nombre} alt="" /></Link>

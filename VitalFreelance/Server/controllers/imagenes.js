@@ -214,23 +214,28 @@ async function mostrarDetalleOfertaLocal(req, res) {
 
     const procesarImagen = async (item) => {
       try {
-        const imageFileId = item.Image;
-        const imageFile = await FileSchema.findOne({ _id: imageFileId });
+        const imageFileIds = Array.isArray(item.Image) ? item.Image : [item.Image];
+        const imageUrls = [];
 
-        if (imageFile && ['image/jpeg', 'image/jpg', 'image/png'].includes(imageFile.mimetype)) {
-          const fs = require('fs');
-          const imageData = fs.readFileSync(imageFile.path);
-          const base64Image = Buffer.from(imageData).toString('base64');
-          const imageUrl = `data:${imageFile.mimetype};base64,${base64Image}`;
-          return { ...item._doc, imageUrl };
-        } else {
-          return { ...item._doc, imageUrl: null };
+        for (const imageFileId of imageFileIds) {
+          const imageFile = await FileSchema.findOne({ _id: imageFileId });
+
+          if (imageFile && ['image/jpeg', 'image/jpg', 'image/png'].includes(imageFile.mimetype)) {
+            const fs = require('fs');
+            const imageData = fs.readFileSync(imageFile.path);
+            const base64Image = Buffer.from(imageData).toString('base64');
+            const imageUrl = `data:${imageFile.mimetype};base64,${base64Image}`;
+            imageUrls.push(imageUrl);
+          }
         }
+
+        return { ...item._doc, imageUrls };
       } catch (imageError) {
         console.error('Error al buscar la imagen:', imageError);
-        return { ...item._doc, imageUrl: null };
+        return { ...item._doc, imageUrls: [] };
       }
     };
+
 
     const elementoConImagen = await procesarImagen(elemento);
 

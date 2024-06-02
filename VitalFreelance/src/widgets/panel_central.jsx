@@ -52,12 +52,12 @@ function PanelCentral({ email }) {
             <div className='crear'>
                 <div className='anadir'>
                     Crea tu oferta
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas sapiente, laborum architecto saepe cum, temporibus accusamus nostrum quam enim debitis asperiores repellendus in unde minima suscipit, quibusdam perspiciatis nobis quae?</p>
+                    <p>¿Tienes un servicio o producto que puede transformar la vida de las personas? ¡No lo guardes para ti! Compartir tu oferta es el primer paso para ayudar a otros a alcanzar sus metas de salud y bienestar.</p>
                     <Link to="/RegistroOferta"><button className='button'>Crear una oferta ahora</button></Link>
                 </div>
                 <div className='anadir'>
                     Añade tu local
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas sapiente, laborum architecto saepe cum, temporibus accusamus nostrum quam enim debitis asperiores repellendus in unde minima suscipit, quibusdam perspiciatis nobis quae?</p>
+                    <p>¿Tienes un local, tienda o gimnasio que inspira salud y vitalidad? ¡No te quedes en el anonimato! Publicar tu oferta es la clave para atraer nuevos clientes y hacer crecer tu comunidad.</p>
                     <Link to="/RegistroLocal"><button className='button'>Añadir tu local</button></Link>
                 </div>
             </div>

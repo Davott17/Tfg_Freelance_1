@@ -34,10 +34,10 @@ function Galeria() {
                     </article>
 
 
-                    <div className='contenedor_imagenes_pequenas'>
+                    <div className='contenedor_imagenes_pequenas_landing'>
                         {imagenes.slice(1).map((f, index) => (
                             <article className='articulo_pequeno' >
-                                <img className='imagen_pequena' key={index} src={f.imagen} alt='x' />
+                                <img className='imagen_pequena_landing' key={index} src={f.imagen} alt='x' />
                                 <div>
                                     <article className='column'>
                                         <p>{f.nombre}</p>

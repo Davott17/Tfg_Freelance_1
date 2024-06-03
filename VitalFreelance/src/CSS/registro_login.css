@@ -159,7 +159,7 @@ html,body{
     }
   }
 
-  .boton_volver{
+.boton_volver{
     border-radius: 50%;
     background-color: #F7A80F;
     display: flex;
@@ -174,4 +174,17 @@ html,body{
 .boton_volver_img {
     width: 36px;
     height: 36px;
+}
+
+.boton_volver_oferta{
+    border-radius: 50%;
+    background-color: #F7A80F;
+    display: flex;
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    height: 48px;
+    width: 48px;
+    justify-content: center;
+    align-items: center;
 }

@@ -84,14 +84,12 @@ async function uploadMultiple(req, res) {
     if (geoResponse.data.status !== 'OK') {
       return res.status(400).json({ error: 'Error al geocodificar la dirección' });
     }
-
     const location = geoResponse.data.results[0].geometry.location;
     const coordinates = {
       lat: location.lat,
       lng: location.lng
     };
     console.log(location);
-
     // Crear y guardar las imágenes
     const imagenesGuardadas = [];
     for (const file of files) {
@@ -108,9 +106,7 @@ async function uploadMultiple(req, res) {
       const imagenGuardada = await nuevaImage.save();
       imagenesGuardadas.push(imagenGuardada);
     }
-
     console.log(imagenesGuardadas);
-
     // Crear y guardar la oferta con las coordenadas y las referencias a las imágenes
     const nuevoLocal = new locals({
       title,

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import '../CSS/oferta.css'
+import '../CSS/oferta.css';
 import { useNavigate } from 'react-router-dom';
+import volver from '../assets/volver.png'
+import { Link } from 'react-router-dom'
+import fondo from '../assets/Fondo.png'
 
 const RegistroImagen = () => {
     const email = localStorage.getItem('email');
@@ -53,8 +56,8 @@ const RegistroImagen = () => {
 
     return (
         <>
-            <div className="contenedor ">
-                <img src="" alt="" />
+            <div className="contenedor_fondo ">
+                <img src={fondo} alt="fondo" />
             </div>
             <div className="contenedor_principal ">
                 <div className=''>
@@ -83,6 +86,11 @@ const RegistroImagen = () => {
                         <button type="submit">Crear oferta</button>
                     </form>
                 </div>
+            </div>
+            <div className="boton_volver">
+                <Link to="/areaCliente">
+                    <img className="boton_volver_img" src={volver} alt="volver" />
+                </Link>
             </div>
         </>
     );

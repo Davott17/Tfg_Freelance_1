@@ -26,7 +26,12 @@ const localSchema = new Schema({
     ocupacion: {
         type: String,
         required: true, // corrected "require" to "required"
+    },email:{
+        type: String,
+        require:false,
     }
+
+
 });
 
 module.exports = mongoose.model("Local", localSchema);

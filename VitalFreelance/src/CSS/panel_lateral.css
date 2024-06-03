@@ -106,5 +106,10 @@ td{
 }
 .button{
     color: black;
-    background-color: #00f8ff ;
+    background-color: #ffffff ;
+    border-color: black;
+}.button:hover{
+    color: #ffffff;
+    background-color: black ;
+    border-color: #ffffff;
 }

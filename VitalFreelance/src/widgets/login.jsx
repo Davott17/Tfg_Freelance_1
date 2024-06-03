@@ -66,7 +66,7 @@ function Login() {
 
     return (
         <>
-            <div className="contenedor ">
+            <div className="contenedor_fondo ">
                 <img src={fondo} alt="" />
             </div>
             <div className="contenedor_principal ">

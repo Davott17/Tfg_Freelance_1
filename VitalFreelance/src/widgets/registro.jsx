@@ -119,7 +119,7 @@ function Registro() {
     return (
         <>
             <div><Toaster position="bottom-right" reverseOrder={true} /></div>
-            <div className="contenedor ">
+            <div className="contenedor_fondo ">
                 <img src={fondo} alt="" />
             </div>
             <div className="contenedor_principal ">

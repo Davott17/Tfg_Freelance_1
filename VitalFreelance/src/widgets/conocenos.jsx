@@ -13,7 +13,7 @@ function Conocenos() {
                     </div>
                     <img className='imagen_bienestar' src={bienestar} alt="" />
                 </div>
-                <button className="aprende_boton">Aprende mas sobre nosotros</button>
+                
             </div>
         </>
     )

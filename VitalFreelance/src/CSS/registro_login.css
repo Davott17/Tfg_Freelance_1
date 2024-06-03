@@ -9,12 +9,13 @@ html,body{
     display: flex; /* O usar flexbox o grid */
     align-items: center; /* Alinear verticalmente el texto y el checkbox */
 }
-.contenedor > img{
+.contenedor_fondo > img{
     filter:blur(5px);
     background-attachment: fixed;
-    width: 117%;
+    width: 100%;
     height: 99vh;
 }
+
 .contenedor_principal{
     color: black;
     margin: auto;

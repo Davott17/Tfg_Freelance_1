@@ -10,9 +10,8 @@ function PanelCentral({ email }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3977/api/oferta/ofertas-con-imagenes', {
-                    params: { email }
-                });
+                const email = localStorage.getItem('email');
+                const response = await axios.get(`http://localhost:3977/api/oferta//ofertas-con-imagenes-email?email=${email}`);
                 const { ofertas, locales } = response.data;
                 const combinedData = [...ofertas, ...locales];
                 setData(combinedData);
@@ -26,7 +25,6 @@ function PanelCentral({ email }) {
 
     return (
         <div className=''>
-            {error && <div>Error: {error}</div>}
             <div className='contenedor_central_cliente'>
                 <table>
                     <thead>

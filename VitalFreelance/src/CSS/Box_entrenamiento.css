@@ -44,8 +44,9 @@
 
 .imagen_oferta_grande {
     width: 100%;
-    max-width: 700px;
+    max-width: 800px;
     height: auto;
+    min-width: 600px;
 }
 
 .contenedor_imagenes_pequenas {

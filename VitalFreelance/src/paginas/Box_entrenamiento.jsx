@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../CSS/Box_entrenamiento.css';
@@ -7,23 +7,24 @@ import * as maptilersdk from '@maptiler/sdk';
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import Header from '../widgets/header_logueado';
 import '../CSS/map.css';
-import volver from '../assets/volver.png'
+import volver from '../assets/volver.png';
 
 const Box_entrenamiento = () => {
     const [oferta, setOferta] = useState(null);
     const [error, setError] = useState(null);
+    const [data, setData] = useState(null);
     maptilersdk.config.apiKey = 'YPheQw7gSXzzzgnPBYT6';
     const { id } = useParams();
     const mapContainer = useRef(null);
     const map = useRef(null);
     const zoom = 15; // Set your desired initial zoom level
-    
 
     useEffect(() => {
         const fetchOferta = async () => {
             try {
                 const response = await axios.get(`http://localhost:3977/api/oferta/${id}`);
                 setOferta(response.data);
+                fetchData(response.data.email);
             } catch (error) {
                 setError(`Error al cargar la oferta: ${error.message}`);
             }
@@ -31,7 +32,16 @@ const Box_entrenamiento = () => {
 
         fetchOferta();
     }, [id]);
-    console.log(oferta);
+
+    async function fetchData(email) {
+        try {
+            const res = await axios.get(`http://localhost:3977/api/getDatalog?email=${email}`);
+            setData(res.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     useEffect(() => {
         if (map.current || !oferta) return; // Stop map from initializing more than once or if oferta is null
 
@@ -47,6 +57,9 @@ const Box_entrenamiento = () => {
                 .addTo(map.current);
         }
     }, [oferta]);
+
+    console.log(data);
+    console.log(oferta);
 
     if (error) {
         return (
@@ -71,19 +84,22 @@ const Box_entrenamiento = () => {
             <div className='full_container'>
                 <Header />
                 <div className='container'>
-
                     <div className='text'>
                         <h1 className='h1'>{oferta.title}</h1>
                         <p><strong>{oferta.ocupacion}</strong></p>
                         <p>
-                            <strong> Contacto :</strong>
-                            <br />{email}
-                            <br />{oferta.emp}
-                            </p>
-                        <p>
-                            <strong> Descripción :</strong>
+                            <strong>Publicado por:</strong> {data ? data.usuario : 'Cargando...'}
                             <br />
-                            {oferta.description}  Ad recusandae, obcaecati quasi perspiciatis incidunt explicabo expedita id vel debitis distinctio, nesciunt totam enim commodi earum voluptates repellendus maxime?
+                            <strong>Empresa:</strong> {data ? (data.n_empresa ? data.n_empresa : 'Freelancer') : 'Cargando...'}
+                        </p>
+                        <p>
+                            <strong>Contacto:</strong>
+                            <br />{oferta.email}
+                        </p>
+                        <p>
+                            <strong>Descripción:</strong>
+                            <br />
+                            {oferta.description} 
                         </p>
                     </div>
                     <div className='visual'>
@@ -98,7 +114,6 @@ const Box_entrenamiento = () => {
                         <div className='mapa' ref={mapContainer} style={{ height: '400px', width: '80%' }}></div>
                     </div>
                 </div>
-
             </div>
             <div className="boton_volver_oferta">
                 <Link to="/Buscador">
@@ -107,8 +122,6 @@ const Box_entrenamiento = () => {
             </div>
         </>
     );
-
 };
 
 export default Box_entrenamiento;
-

@@ -62,7 +62,6 @@ async function uploadSingle(req, res) {
 
 
 async function uploadMultiple(req, res) {
-  console.log(req.files);
   try {
     // req.files contendrá los archivos subidos
     const files = req.files;
@@ -80,7 +79,6 @@ async function uploadMultiple(req, res) {
         key: GOOGLE_MAPS_API_KEY // Usa tu clave de Google Maps API
       }
     });
-    console.log(geoResponse);
     if (geoResponse.data.status !== 'OK') {
       return res.status(400).json({ error: 'Error al geocodificar la dirección' });
     }
@@ -89,7 +87,6 @@ async function uploadMultiple(req, res) {
       lat: location.lat,
       lng: location.lng
     };
-    console.log(location);
     // Crear y guardar las imágenes
     const imagenesGuardadas = [];
     for (const file of files) {
@@ -177,6 +174,8 @@ async function mostrarTodasOfertasConImagenes(req, res) {
     };
     const ofertasConImagenes = await procesarImagenes(ofertas);
     const localesConImagenes = await procesarImagenes(locales);
+    console.log(ofertasConImagenes);
+    console.log(localesConImagenes);
 
     res.json({ ofertas: ofertasConImagenes, locales: localesConImagenes });
 
@@ -187,6 +186,61 @@ async function mostrarTodasOfertasConImagenes(req, res) {
 }
 
 
+async function mostrarOfertasPorEmail(req, res) {
+  try {
+    const email = req.query.email;
+    let ofertas;
+    let locales;
+
+    // Filtrar ofertas y locales por email
+    if (email) {
+      ofertas = await Oferta.find({ email: email }).populate('Image');
+      locales = await locals.find({ email: email }).populate('Image');
+    } else {
+      return res.status(400).json({ error: 'El email es requerido para esta búsqueda' });
+    }
+
+    // Verificar si se encontraron ofertas o locales
+    if ((!ofertas || ofertas.length === 0) && (!locales || locales.length === 0)) {
+      return res.status(404).json({ error: 'No se encontraron ofertas ni locales para el email proporcionado' });
+    }
+
+    const procesarImagenes = async (items) => {
+      return await Promise.all(items.map(async (item) => {
+        try {
+          const imageFileIds = Array.isArray(item.Image) ? item.Image : [item.Image];
+          const imageUrls = [];
+
+          for (const imageFileId of imageFileIds) {
+            const imageFile = await FileSchema.findOne({ _id: imageFileId });
+
+            if (imageFile && ['image/jpeg', 'image/jpg', 'image/png'].includes(imageFile.mimetype)) {
+              const fs = require('fs');
+              const imageData = fs.readFileSync(imageFile.path);
+              const base64Image = Buffer.from(imageData).toString('base64');
+              const imageUrl = `data:${imageFile.mimetype};base64,${base64Image}`;
+              imageUrls.push(imageUrl);
+            }
+          }
+
+          return { ...item._doc, imageUrls };
+        } catch (imageError) {
+          console.error('Error al buscar la imagen:', imageError);
+          return { ...item._doc, imageUrls: [] };
+        }
+      }));
+    };
+
+    const ofertasConImagenes = await procesarImagenes(ofertas);
+    const localesConImagenes = await procesarImagenes(locales);
+
+    res.json({ ofertas: ofertasConImagenes, locales: localesConImagenes });
+
+  } catch (error) {
+    console.error('Error interno del servidor:', error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+}
 
 
 
@@ -250,6 +304,7 @@ module.exports = {
   uploadSingle,
   uploadMultiple,
   mostrarTodasOfertasConImagenes,
-  mostrarDetalleOfertaLocal
+  mostrarDetalleOfertaLocal,
+  mostrarOfertasPorEmail
 
 };

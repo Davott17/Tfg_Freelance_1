@@ -35,6 +35,7 @@ function Buscador() {
             ...data.ofertas.map(oferta => oferta.ocupacion),
         ])
     ];
+    console.log(data);
 
     return (
         <>

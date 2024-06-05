@@ -9,6 +9,7 @@ const path = require('path');
 const port = process.env.PORT || 3977;
 const urlMongoDb = "mongodb+srv://davott1717:bhQ5Zg9Q9405UU3R@vitalfreelance.fzdjam8.mongodb.net/VitalfreelanceDB?retryWrites=true&w=majority&appName=VitalFreelance";
 
+
 async function connectToDatabase() {
     try {
         await mongoose.connect(urlMongoDb, {

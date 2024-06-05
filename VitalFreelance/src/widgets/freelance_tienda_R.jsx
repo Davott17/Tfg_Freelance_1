@@ -6,9 +6,11 @@ import fondo from '../assets/Fondo.png'
 import { useState, useEffect, useRef } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import volver from '../assets/volver.png';
+import { useNavigate } from 'react-router-dom';
 
 
 function FRTD() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         usuario: "",
         name: "",
@@ -106,6 +108,7 @@ function FRTD() {
                 }
                 setError(errorData); // Almacena todo el objeto de errores
             }
+            navigate("/Login");
         } catch (error) {
             // Manejo de errores de red u otros
             setErrorRef.current("Error en la conexión con el servidor");
